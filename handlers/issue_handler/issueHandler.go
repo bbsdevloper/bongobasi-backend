@@ -55,7 +55,7 @@ func CreateIssueHandler(w http.ResponseWriter, r *http.Request) {
 	// if problem.IssueTitle == "" ||
 	// 	problem.IssueDescription == "" ||
 	// 	problem.IssueLocation.District == "" ||
-		
+
 	// 	problem.IssueProgress == "" ||
 	// 	problem.IssueRaiserId == "" ||
 	// 	problem.IssueDate == "" {
@@ -162,44 +162,101 @@ func UpdateOneIssue(issueId string, problem model.ProblemData) {
 	fmt.Println("Modified Count: ", result.ModifiedCount)
 }
 
+// func UpdateIssueHandler(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+// 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+// 	var problem model.ProblemData
+// 	_ = json.NewDecoder(r.Body).Decode(&problem)
+// 	params := mux.Vars(r)
+// 	issueId := params["id"]
+// 	if issueId == "" {
+// 		fmt.Println("issue id is empty")
+// 		response := map[string]interface{}{
+// 			"message": "Please provide correct issue id",
+// 		}
+// 		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
+// 		json.NewEncoder(w).Encode(response)
+// 		return
+// 	}
+// 	fmt.Println("problem :", problem)
+// 	if problem.IssueTitle == "" ||
+// 		problem.IssueDescription == "" ||
+// 		problem.IssueLocation.Long == nan ||
+// 		problem.IssueLocation.Lat == nan ||
+// 		problem.IssueProgress == "" ||
+// 		problem.IssueRaiserId == "" ||
+// 		problem.IssueDate == "" {
+// 		fmt.Println("please fl all the fields")
+// 		response := map[string]interface{}{
+// 			"message": "Please fill all the fields",
+// 		}
+// 		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
+// 		json.NewEncoder(w).Encode(response)
+
+// 		return
+// 	}
+// 	UpdateOneIssue(issueId, problem)
+// 	json.NewEncoder(w).Encode(issueId)
+
+// }
+
 func UpdateIssueHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+	// Allow cross-origin requests from any origin
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
+	// Handle preflight OPTIONS request
+	if r.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Methods", "PUT")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
+	// Handle PUT request
+	w.Header().Set("Content-Type", "application/json")
+
 	var problem model.ProblemData
-	_ = json.NewDecoder(r.Body).Decode(&problem)
-	params := mux.Vars(r)
-	issueId := params["id"]
-	if issueId == "" {
-		fmt.Println("issue id is empty")
+	err := json.NewDecoder(r.Body).Decode(&problem)
+	if err != nil {
+		// Handle JSON decoding error
 		response := map[string]interface{}{
-			"message": "Please provide correct issue id",
+			"message": "Failed to decode request body",
 		}
-		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(response)
 		return
 	}
-	// fmt.Println("problem :", problem)
-	// if problem.IssueTitle == "" ||
-	// 	problem.IssueDescription == "" ||
-	// 	problem.IssueLocation.Long == nan ||
-	// 	problem.IssueLocation.Lat == nan ||
-	// 	problem.IssueProgress == "" ||
-	// 	problem.IssueRaiserId == "" ||
-	// 	problem.IssueDate == "" {
-	// 	fmt.Println("please fl all the fields")
-	// 	response := map[string]interface{}{
-	// 		"message": "Please fill all the fields",
-	// 	}
-	// 	w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
-	// 	json.NewEncoder(w).Encode(response)
 
-	// 	return
-	// }
-	UpdateOneIssue(issueId, problem)
-	json.NewEncoder(w).Encode(issueId)
+	params := mux.Vars(r)
+	issueID := params["id"]
+	if issueID == "" {
+		response := map[string]interface{}{
+			"message": "Please provide a correct issue ID",
+		}
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
 
+	// Update the issue with the given ID
+	UpdateOneIssue(issueID, problem)
+	if err != nil {
+		// Handle error in updating the issue
+		response := map[string]interface{}{
+			"message": "Failed to update the issue",
+		}
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	response := map[string]interface{}{
+		"message": "Issue updated successfully",
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
 }
 
 func FetchAllUserIssuesHandler(w http.ResponseWriter, r *http.Request) {
