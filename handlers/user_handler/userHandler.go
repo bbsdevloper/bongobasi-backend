@@ -45,6 +45,7 @@ func createUser(user model.UserData) {
 func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	var user model.UserData
 	_ = json.NewDecoder(r.Body).Decode(&user)
@@ -57,6 +58,7 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 func CheckUserExist(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	var phone model.Phone
 	_ = json.NewDecoder(r.Body).Decode(&phone)
@@ -71,7 +73,7 @@ func CheckUserExist(w http.ResponseWriter, r *http.Request) {
 		if err == mongo.ErrNoDocuments {
 			fmt.Println("No documents found")
 			// send 500 error
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode("No documents found")
 		} else {
 			json.NewEncoder(w).Encode("Error decoding")
@@ -84,13 +86,16 @@ func CheckUserExist(w http.ResponseWriter, r *http.Request) {
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	params := mux.Vars(r)
 	userId := params["id"]
 	if userId == "" {
 		response := map[string]interface{}{
 			"message": "Please provide correct user id",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 		return
 

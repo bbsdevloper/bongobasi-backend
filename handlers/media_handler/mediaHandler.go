@@ -34,7 +34,7 @@ func UploadMediaToS3(w http.ResponseWriter, r *http.Request) {
 
 	fileBytes := bytes.NewBuffer(nil)
 	if _, err := fileBytes.ReadFrom(file); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
@@ -47,7 +47,7 @@ func UploadMediaToS3(w http.ResponseWriter, r *http.Request) {
 	// Upload the file to S3
 	objectKey, err := uploadToS3(fileBytes, fileName, fileType)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
