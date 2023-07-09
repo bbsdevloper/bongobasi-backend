@@ -8,11 +8,11 @@ type ProblemData struct {
 	IssueLevel       string        `json:"issuelevel"`
 	IssueLocation    IssueLocation `json:"issuelocation"`
 	IssueProgress    string        `json:"issueprogress"`
-	IssueRaiserId    string        `json:"issueraiserid"`
 	IssueDate        string        `json:"issuedate"`
 	IssueImages      []string      `json:"issueimages"`
 	IssueVideos      []string      `json:"issuevideos"`
 	IssueComments    []Comment     `json:"issuecomments"`
+	IssueRaiserDetails IssueRaiserDetails `json:"issueraiserdetails"`
 }
 
 type IssueRaiserDetails struct {
