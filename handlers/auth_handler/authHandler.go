@@ -33,8 +33,8 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Send the response
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
-		w.Write(jsonResponse)                         // Write the JSON response to the client
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
+		w.Write(jsonResponse)              // Write the JSON response to the client
 		log.Fatal("Error loading .env.local file")
 	}
 
@@ -49,7 +49,7 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 		response := map[string]interface{}{
 			"message": "Unable to send otp",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 
 		log.Fatal("Error decoding request body: ", err)
@@ -62,7 +62,7 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 			response := map[string]interface{}{
 				"message": "Unable to send otp",
 			}
-			w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+			w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 			json.NewEncoder(w).Encode(response)
 		} else {
 			response := map[string]interface{}{
@@ -77,7 +77,7 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 		response := map[string]interface{}{
 			"message": "Unable to send otp",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 	}
 
@@ -136,7 +136,7 @@ func VerifyOtp(w http.ResponseWriter, r *http.Request) {
 		response := map[string]interface{}{
 			"message": "Unable to verify otp",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 
 		log.Fatal("Error decoding request body: ", err)
@@ -160,14 +160,14 @@ func VerifyOtp(w http.ResponseWriter, r *http.Request) {
 			response := map[string]interface{}{
 				"message": "Unable to verify otp",
 			}
-			w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+			w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 			json.NewEncoder(w).Encode(response)
 		}
 	} else {
 		response := map[string]interface{}{
 			"message": "Unable to verify otp",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 	}
 

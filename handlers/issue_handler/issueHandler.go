@@ -52,20 +52,20 @@ func CreateIssueHandler(w http.ResponseWriter, r *http.Request) {
 	var problem model.ProblemData
 	_ = json.NewDecoder(r.Body).Decode(&problem)
 
-	if problem.IssueTitle == "" ||
-		problem.IssueDescription == "" ||
-		problem.IssueLocation.Lat == nan ||
-		problem.IssueLocation.Long == nan ||
-		problem.IssueProgress == "" ||
-		problem.IssueRaiserId == "" ||
-		problem.IssueDate == "" {
-		response := map[string]interface{}{
-			"message": "Please fill all the fields",
-		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
-		json.NewEncoder(w).Encode(response)
-		return
-	}
+	// if problem.IssueTitle == "" ||
+	// 	problem.IssueDescription == "" ||
+	// 	problem.IssueLocation.District == "" ||
+		
+	// 	problem.IssueProgress == "" ||
+	// 	problem.IssueRaiserId == "" ||
+	// 	problem.IssueDate == "" {
+	// 	response := map[string]interface{}{
+	// 		"message": "Please fill all the fields",
+	// 	}
+	// 	w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
+	// 	json.NewEncoder(w).Encode(response)
+	// 	return
+	// }
 
 	AddOneIssue(problem)
 	json.NewEncoder(w).Encode(problem)
@@ -93,7 +93,7 @@ func DeleteIssueHandler(w http.ResponseWriter, r *http.Request) {
 		response := map[string]interface{}{
 			"message": "Please provide correct issue id",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 		return
 
@@ -135,7 +135,7 @@ func FetchSingleIssueHandler(w http.ResponseWriter, r *http.Request) {
 		response := map[string]interface{}{
 			"message": "Please provide correct issue id",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 		return
 
@@ -165,34 +165,41 @@ func UpdateOneIssue(issueId string, problem model.ProblemData) {
 func UpdateIssueHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	var problem model.ProblemData
 	_ = json.NewDecoder(r.Body).Decode(&problem)
 	params := mux.Vars(r)
 	issueId := params["id"]
 	if issueId == "" {
+		fmt.Println("issue id is empty")
 		response := map[string]interface{}{
 			"message": "Please provide correct issue id",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 		return
 	}
-	if problem.IssueTitle == "" ||
-		problem.IssueDescription == "" ||
-		problem.IssueLocation.Long == nan ||
-		problem.IssueLocation.Lat == nan ||
-		problem.IssueProgress == "" ||
-		problem.IssueRaiserId == "" ||
-		problem.IssueDate == "" {
-		response := map[string]interface{}{
-			"message": "Please fill all the fields",
-		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
-		json.NewEncoder(w).Encode(response)
-		return
-	}
+	// fmt.Println("problem :", problem)
+	// if problem.IssueTitle == "" ||
+	// 	problem.IssueDescription == "" ||
+	// 	problem.IssueLocation.Long == nan ||
+	// 	problem.IssueLocation.Lat == nan ||
+	// 	problem.IssueProgress == "" ||
+	// 	problem.IssueRaiserId == "" ||
+	// 	problem.IssueDate == "" {
+	// 	fmt.Println("please fl all the fields")
+	// 	response := map[string]interface{}{
+	// 		"message": "Please fill all the fields",
+	// 	}
+	// 	w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
+	// 	json.NewEncoder(w).Encode(response)
+
+	// 	return
+	// }
 	UpdateOneIssue(issueId, problem)
 	json.NewEncoder(w).Encode(issueId)
+
 }
 
 func FetchAllUserIssuesHandler(w http.ResponseWriter, r *http.Request) {
@@ -208,7 +215,7 @@ func FetchAllUserIssueHandler(w http.ResponseWriter, r *http.Request) {
 		response := map[string]interface{}{
 			"message": "Please provide correct issue id",
 		}
-		w.WriteHeader(http.StatusInternalServerError) // Set the HTTP status code
+		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 		return
 
