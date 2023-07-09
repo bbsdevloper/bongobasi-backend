@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/cors v1.9.0
@@ -11,10 +12,7 @@ require (
 	go.mongodb.org/mongo-driver v1.12.0
 )
 
-require (
-	github.com/google/uuid v1.3.0 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
-)
+require github.com/jmespath/go-jmespath v0.4.0 // indirect
 
 require (
 	github.com/aws/aws-sdk-go v1.44.297
