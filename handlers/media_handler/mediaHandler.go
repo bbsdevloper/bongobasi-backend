@@ -2,6 +2,7 @@ package media_handler
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -52,8 +53,12 @@ func UploadMediaToS3(w http.ResponseWriter, r *http.Request) {
 
 	// Get the public image link
 	imageURL := getPublicURL(objectKey)
+	// send img url in json for
+	data := map[string]interface{}{
+		"img_url": imageURL,
+	}
+	json.NewEncoder(w).Encode(data)
 
-	fmt.Fprintf(w, "Image uploaded successfully. Public link: %s", imageURL)
 }
 
 func uploadToS3(file *bytes.Buffer, fileName, fileType string) (string, error) {
