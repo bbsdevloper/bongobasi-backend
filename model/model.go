@@ -47,7 +47,7 @@ type Phone struct {
 }
 
 type IssueLocation struct {
-	LocalAddress   string   `json:"localaddress"`
-    District  string    `json:"district"`
-    SubDivision  string   	`json:"subdivision"`
-}	
+	LocalAddress string `json:"localaddress"`
+	District     string `json:"district"`
+	SubDivision  string `json:"subdivision"`
+}
