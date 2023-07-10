@@ -203,20 +203,12 @@ func UpdateOneIssue(issueId string, problem model.ProblemData) {
 // }
 
 func UpdateIssueHandler(w http.ResponseWriter, r *http.Request) {
-	// Allow cross-origin requests from any origin
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
-	// Handle preflight OPTIONS request
-	if r.Method == http.MethodOptions {
-		w.Header().Set("Access-Control-Allow-Methods", "PUT")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-		w.WriteHeader(http.StatusNoContent)
-		return
-	}
-
-	// Handle PUT request
-	w.Header().Set("Content-Type", "application/json")
-
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	fmt.Println("update issue handler")
 	var problem model.ProblemData
 	err := json.NewDecoder(r.Body).Decode(&problem)
 	if err != nil {
