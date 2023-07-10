@@ -19,7 +19,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/fetchIssue", issue_handler.FetchAllIssueHandler).Methods("GET")
 	router.HandleFunc("/api/deleteIssue/{id}", issue_handler.DeleteIssueHandler).Methods("DELETE")
 	router.HandleFunc("/api/fetchIssue/{id}", issue_handler.FetchSingleIssueHandler).Methods("GET")
-	router.HandleFunc("/api/fetchIssues/{id}", issue_handler.FetchAllUserIssuesHandler).Methods("GET")
+	router.HandleFunc("/api/fetchIssues/{id}", issue_handler.FetchAllUserIssueHandler).Methods("GET")
 	router.HandleFunc("/api/updateIssue/{id}", issue_handler.UpdateIssueHandler).Methods("PUT")
 
 	// auth routes
@@ -29,8 +29,8 @@ func Router() *mux.Router {
 	// user routes
 	router.HandleFunc("/api/createUser", user_handler.CreateUserHandler).Methods("POST")
 	router.HandleFunc("/api/checkUser", user_handler.CheckUserExist).Methods("POST")
-	//router.HandleFunc("/api/getUser/{id}", user_handler.GetUser).Methods("GET")
-	router.Handle("/api/getUser/{id}", middleware.AuthMiddleware(http.HandlerFunc(user_handler.GetUser))).Methods("GET")
+	router.HandleFunc("/api/getUser/{id}", user_handler.GetUser).Methods("GET")
+	//router.Handle("/api/getUser/{id}", middleware.AuthMiddleware(http.HandlerFunc(user_handler.GetUser))).Methods("GET")
 
 	// media routes
 	router.HandleFunc("/api/uploadMedia", media_handler.UploadMediaToS3).Methods("POST")

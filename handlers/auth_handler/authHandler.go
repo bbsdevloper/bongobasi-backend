@@ -18,6 +18,8 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	
 	err := godotenv.Load(".env.local")
 	if err != nil {
 		// send error to client
