@@ -12,8 +12,8 @@ type ProblemData struct {
 	IssueMedia         []string           `json:"issuemedia"`
 	IssueComments      []Comment          `json:"issuecomments"`
 	IssueRaiserDetails IssueRaiserDetails `json:"issueraiserdetails"`
+	IssueVote  	  int                `json:"issuevote"`
 }
-
 type IssueRaiserDetails struct {
 	IssueRaiserName         string `json:"issueraisername"`
 	IssueRaiserId           string `json:"issueraiserid"`
