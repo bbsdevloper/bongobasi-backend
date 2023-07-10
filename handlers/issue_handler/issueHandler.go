@@ -27,8 +27,9 @@ func init() {
 
 	client, err := database.ConnectToMongoDB()
 	if err != nil {
-		log.Fatal(err)
-	}
+		//console log error
+		log.Panic(err) 
+		}
 
 	collection = client.Database(dbName).Collection(colName)
 
@@ -39,8 +40,9 @@ func AddOneIssue(problem model.ProblemData) {
 	inserted, err := collection.InsertOne(context.Background(), problem)
 
 	if err != nil {
-		log.Fatal(err)
-	}
+		//console log error
+		log.Panic(err) 
+		}
 
 	fmt.Println("Inserted a single document: ", inserted.InsertedID)
 }
@@ -78,8 +80,9 @@ func DeleteOneIssue(issueId string) {
 	result, err := collection.DeleteOne(context.Background(), filter)
 
 	if err != nil {
-		log.Fatal(err)
-	}
+		//console log error
+		log.Panic(err) 
+		}
 	fmt.Println("Deleted Count: ", result.DeletedCount)
 }
 
@@ -106,8 +109,9 @@ func DeleteIssueHandler(w http.ResponseWriter, r *http.Request) {
 func GetAllIssue() []primitive.M {
 	cur, err := collection.Find(context.Background(), bson.D{{}})
 	if err != nil {
-		log.Fatal(err)
-	}
+		//console log error
+		log.Panic(err) 
+		}
 	defer cur.Close(context.Background())
 
 	var issues []primitive.M
@@ -115,8 +119,9 @@ func GetAllIssue() []primitive.M {
 		var issue bson.M
 		err := cur.Decode(&issue)
 		if err != nil {
-			log.Fatal(err)
-		}
+			//console log error
+			log.Panic(err) 
+			}
 		issues = append(issues, issue)
 	}
 	return issues
@@ -145,8 +150,9 @@ func FetchSingleIssueHandler(w http.ResponseWriter, r *http.Request) {
 	var issue bson.M
 	err := collection.FindOne(context.Background(), filter).Decode(&issue)
 	if err != nil {
-		log.Fatal(err)
-	}
+		//console log error
+		log.Panic(err) 
+		}
 	json.NewEncoder(w).Encode(issue)
 }
 
@@ -157,8 +163,9 @@ func UpdateOneIssue(issueId string, problem model.ProblemData) {
 	result, err := collection.UpdateOne(context.Background(), filter, update)
 
 	if err != nil {
-		log.Fatal(err)
-	}
+		//console log error
+		log.Panic(err) 
+		}
 	fmt.Println("Modified Count: ", result.ModifiedCount)
 }
 
@@ -251,10 +258,10 @@ func UpdateIssueHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func FetchAllUserIssuesHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
-	json.NewEncoder(w).Encode(GetAllIssue())
-}
+// func FetchAllUserIssuesHandler(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+// 	json.NewEncoder(w).Encode(GetAllIssue())
+// }
 
 func FetchAllUserIssueHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
@@ -274,7 +281,7 @@ func FetchAllUserIssueHandler(w http.ResponseWriter, r *http.Request) {
 	var issue bson.M
 	err := collection.FindOne(context.Background(), filter).Decode(&issue)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 	json.NewEncoder(w).Encode(issue)
 }
