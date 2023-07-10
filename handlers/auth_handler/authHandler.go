@@ -21,7 +21,7 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
-	err := godotenv.Load(".env.local")
+	err := godotenv.Load(".env")
 	if err != nil {
 		// send error to client
 		response := map[string]interface{}{
@@ -120,7 +120,7 @@ func VerifyOtp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
-	err := godotenv.Load(".env.local")
+	err := godotenv.Load(".env")
 	if err != nil {
 		fmt.Println("Error loading .env file")
 	}
@@ -199,7 +199,7 @@ func isCorrectOtp(phone string, otp string, accountSid string, authToken string,
 
 func generateJWT(phone string) string {
 
-	godotenv.Load(".env.local")
+	godotenv.Load(".env")
 
 	// Define the secret key used to sign the token
 
