@@ -30,7 +30,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/createUser", user_handler.CreateUserHandler).Methods("POST")
 	router.HandleFunc("/api/checkUser", user_handler.CheckUserExist).Methods("POST")
 	router.HandleFunc("/api/getUser/{id}", user_handler.GetUser).Methods("GET")
-	//router.Handle("/api/getUser/{id}", middleware.AuthMiddleware(http.HandlerFunc(user_handler.GetUser))).Methods("GET")
+	// router.Handle("/api/getUser/{id}", middleware.AuthMiddleware(http.HandlerFunc(user_handler.GetUser))).Methods("GET")
 
 	// media routes
 	router.HandleFunc("/api/uploadMedia", media_handler.UploadMediaToS3).Methods("POST")
