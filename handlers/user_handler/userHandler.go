@@ -110,3 +110,68 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(userData)
 
 }
+
+//update user data
+
+
+func UpdateOneUser(userId string, user model.UserData) {
+	id, _ := primitive.ObjectIDFromHex(userId)
+	filter := bson.M{"_id": id}
+	update := bson.M{"$set": user}
+	result, err := collection.UpdateOne(context.Background(), filter, update)
+
+	if err != nil {
+		//console log error
+		log.Panic(err) 
+		}
+	fmt.Println("Modified Count: ", result.ModifiedCount)
+}
+
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	fmt.Println("update issue handler")
+	var user model.UserData
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		// Handle JSON decoding error
+		response := map[string]interface{}{
+			"message": "Failed to decode request body",
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	params := mux.Vars(r)
+	userID := params["id"]
+	if userID == "" {
+		response := map[string]interface{}{
+			"message": "Please provide a correct issue ID",
+		}
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	// Update the issue with the given ID
+	UpdateOneUser(userID, user)
+	if err != nil {
+		// Handle error in updating the issue
+		response := map[string]interface{}{
+			"message": "Failed to update the issue",
+		}
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	response := map[string]interface{}{
+		"message": "Issue updated successfully",
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}
