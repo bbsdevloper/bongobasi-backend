@@ -15,9 +15,12 @@ import (
 )
 
 func SendOtp(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("SendOtp called")
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 	err := godotenv.Load(".env.local")
 	if err != nil {
 		// send error to client
@@ -114,7 +117,10 @@ func generateAndSendOtp(accountSid string, authToken string, phone string) (stri
 
 func VerifyOtp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	err := godotenv.Load(".env.local")
 	if err != nil {
