@@ -40,6 +40,7 @@ type UserData struct {
 	UserAge          string `json:"userage"`
 	UserVerified     bool   `json:"userverified"`
 	UserIdProof      string `json:"useridproof"`
+	UserRole     string `json:"userrole"`
 }
 
 type Phone struct {
