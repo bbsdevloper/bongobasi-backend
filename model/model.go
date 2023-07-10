@@ -2,16 +2,15 @@ package model
 
 type ProblemData struct {
 	// IssueId          string        `bson:"id"`
-	IssueTitle       string        `json:"issuename"`
-	IssueType        string        `json:"issuetype"`
-	IssueDescription string        `json:"issuedescription"`
-	IssueLevel       string        `json:"issuelevel"`
-	IssueLocation    IssueLocation `json:"issuelocation"`
-	IssueProgress    string        `json:"issueprogress"`
-	IssueDate        string        `json:"issuedate"`
-	IssueImages      []string      `json:"issueimages"`
-	IssueVideos      []string      `json:"issuevideos"`
-	IssueComments    []Comment     `json:"issuecomments"`
+	IssueTitle         string             `json:"issuetitle"`
+	IssueType          string             `json:"issuetype"`
+	IssueDescription   string             `json:"issuedescription"`
+	IssueLevel         string             `json:"issuelevel"`
+	IssueLocation      IssueLocation      `json:"issuelocation"`
+	IssueProgress      string             `json:"issueprogress"`
+	IssueDate          string             `json:"issuedate"`
+	IssueMedia         []string           `json:"issuemedia"`
+	IssueComments      []Comment          `json:"issuecomments"`
 	IssueRaiserDetails IssueRaiserDetails `json:"issueraiserdetails"`
 }
 
@@ -26,7 +25,8 @@ type IssueRaiserDetails struct {
 type Comment struct {
 	Body        string `json:"body"`
 	UserName    string `json:"username"`
-	CommentType string `json:"issuetype"`
+	CommentType string `json:"commenttype"`
+	CommentTime int64  `json:"commenttime"`
 }
 
 type UserData struct {
@@ -47,7 +47,7 @@ type Phone struct {
 }
 
 type IssueLocation struct {
-	LocalAddress   string   `json:"localaddress"`
-    District  string    `json:"district"`
-    SubDivision  string   	`json:"subdivision"`
-}	
+	LocalAddress string `json:"localaddress"`
+	District     string `json:"district"`
+	SubDivision  string `json:"subdivision"`
+}
