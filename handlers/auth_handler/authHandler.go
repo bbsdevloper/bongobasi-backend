@@ -103,13 +103,13 @@ func generateAndSendOtp(accountSid string, authToken string, phone string) (stri
 	_CreateVerificationParams := &verify.CreateVerificationParams{}
 	_CreateVerificationParams.SetTo(phone)
 	_CreateVerificationParams.SetChannel("sms")
-
+	fmt.Println("Params updated: ", phone)
 	CreateVerificationResp, err := client.VerifyV2.CreateVerification(*CreateServiceResp.Sid, _CreateVerificationParams)
 	if err != nil {
+		fmt.Println("Error: ", err)
 		fmt.Println("CreateVerificationResp: ", CreateVerificationResp)
 		return "Error", "Error"
 	}
-
 	return *CreateVerificationResp.Sid, *CreateServiceResp.Sid
 }
 
@@ -210,7 +210,7 @@ func generateJWT(phone string) string {
 
 	// Set the claims for the token
 	claims := token.Claims.(jwt.MapClaims)
-	claims["phone"] = phone
+	claims["sub"] = phone
 	claims["exp"] = time.Now().Add(time.Hour * 4).Unix() // Token expiration time (1 hour from now)
 
 	// Generate the JWT string
