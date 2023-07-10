@@ -15,6 +15,11 @@ import (
 func Router() *mux.Router {
 	router := mux.NewRouter()
 	// issue routes
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		// wrtite a h1 tag on the page
+		w.Write([]byte("<h1>Hello World</h1>"))
+	}).Methods("POST")
 	router.HandleFunc("/api/addNewIssue", issue_handler.CreateIssueHandler).Methods("POST")
 	router.HandleFunc("/api/fetchIssue", issue_handler.FetchAllIssueHandler).Methods("GET")
 	router.HandleFunc("/api/deleteIssue/{id}", issue_handler.DeleteIssueHandler).Methods("DELETE")
