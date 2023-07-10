@@ -11,7 +11,7 @@ import (
 
 func GenerateJWT(phone string) string {
 
-	godotenv.Load(".env.local")
+	godotenv.Load(".env")
 
 	// Define the secret key used to sign the token
 

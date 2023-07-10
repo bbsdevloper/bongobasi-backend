@@ -63,7 +63,7 @@ func UploadMediaToS3(w http.ResponseWriter, r *http.Request) {
 
 func uploadToS3(file *bytes.Buffer, fileName, fileType string) (string, error) {
 	// get environment variables
-	err := godotenv.Load(".env.local")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Printf("Error loading .env file")
 	}
