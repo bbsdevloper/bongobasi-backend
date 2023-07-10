@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/Prosecutor1x/citizen-connect-frontend/router"
@@ -15,6 +14,6 @@ func main() {
 	r := router.Router()
 	handler := cors.Default().Handler(r)
 
-	log.Fatal(http.ListenAndServe(":4000", handler))
+	http.ListenAndServe(":4000", handler)
 	fmt.Println("Server started in port 4000")
 }

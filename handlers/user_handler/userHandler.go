@@ -24,7 +24,7 @@ func init() {
 
 	client, err := database.ConnectToMongoDB()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	collection = client.Database(dbName).Collection(colName)
@@ -36,7 +36,7 @@ func createUser(user model.UserData) {
 	inserted, err := collection.InsertOne(context.Background(), user)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	fmt.Println("Inserted a single document: ", inserted.InsertedID)
@@ -105,7 +105,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	var userData bson.M
 	err := collection.FindOne(context.Background(), filter).Decode(&userData)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	json.NewEncoder(w).Encode(userData)
 
