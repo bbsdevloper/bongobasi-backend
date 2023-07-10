@@ -28,8 +28,8 @@ func init() {
 	client, err := database.ConnectToMongoDB()
 	if err != nil {
 		//console log error
-		log.Panic(err) 
-		}
+		log.Print(err)
+	}
 
 	collection = client.Database(dbName).Collection(colName)
 
@@ -41,8 +41,8 @@ func AddOneIssue(problem model.ProblemData) {
 
 	if err != nil {
 		//console log error
-		log.Panic(err) 
-		}
+		log.Panic(err)
+	}
 
 	fmt.Println("Inserted a single document: ", inserted.InsertedID)
 }
@@ -81,8 +81,8 @@ func DeleteOneIssue(issueId string) {
 
 	if err != nil {
 		//console log error
-		log.Panic(err) 
-		}
+		log.Panic(err)
+	}
 	fmt.Println("Deleted Count: ", result.DeletedCount)
 }
 
@@ -110,8 +110,8 @@ func GetAllIssue() []primitive.M {
 	cur, err := collection.Find(context.Background(), bson.D{{}})
 	if err != nil {
 		//console log error
-		log.Panic(err) 
-		}
+		log.Panic(err)
+	}
 	defer cur.Close(context.Background())
 
 	var issues []primitive.M
@@ -120,8 +120,8 @@ func GetAllIssue() []primitive.M {
 		err := cur.Decode(&issue)
 		if err != nil {
 			//console log error
-			log.Panic(err) 
-			}
+			log.Panic(err)
+		}
 		issues = append(issues, issue)
 	}
 	return issues
@@ -151,8 +151,8 @@ func FetchSingleIssueHandler(w http.ResponseWriter, r *http.Request) {
 	err := collection.FindOne(context.Background(), filter).Decode(&issue)
 	if err != nil {
 		//console log error
-		log.Panic(err) 
-		}
+		log.Panic(err)
+	}
 	json.NewEncoder(w).Encode(issue)
 }
 
@@ -164,8 +164,8 @@ func UpdateOneIssue(issueId string, problem model.ProblemData) {
 
 	if err != nil {
 		//console log error
-		log.Panic(err) 
-		}
+		log.Panic(err)
+	}
 	fmt.Println("Modified Count: ", result.ModifiedCount)
 }
 
