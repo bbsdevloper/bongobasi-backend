@@ -3,7 +3,6 @@ package database
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -14,7 +13,7 @@ import (
 func ConnectToMongoDB() (*mongo.Client, error) {
 	err := godotenv.Load(".env.local")
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	connectionString := os.Getenv("MONGO_URL")
 	clientOption := options.Client().ApplyURI(connectionString)

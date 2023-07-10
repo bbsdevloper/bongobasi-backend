@@ -32,13 +32,12 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 		jsonResponse, err := json.Marshal(response)
 		if err != nil {
 			// Handle JSON marshaling error
-			log.Fatal("Error marshaling JSON response: ", err)
+			log.Println("Unable to marshal JSON")
 		}
 
 		// Send the response
 		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
-		w.Write(jsonResponse)              // Write the JSON response to the client
-		log.Fatal("Error loading .env.local file")
+		w.Write(jsonResponse)
 	}
 
 	accountSid := os.Getenv("TWILIO_ACCOUNT_SID")
@@ -55,7 +54,6 @@ func SendOtp(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 
-		log.Fatal("Error decoding request body: ", err)
 	}
 
 	phone := requestBody.Phone
@@ -124,7 +122,7 @@ func VerifyOtp(w http.ResponseWriter, r *http.Request) {
 
 	err := godotenv.Load(".env.local")
 	if err != nil {
-		log.Fatal("Error loading .env.local file")
+		fmt.Println("Error loading .env file")
 	}
 
 	accountSid := os.Getenv("TWILIO_ACCOUNT_SID")
@@ -145,7 +143,6 @@ func VerifyOtp(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound) // Set the HTTP status code
 		json.NewEncoder(w).Encode(response)
 
-		log.Fatal("Error decoding request body: ", err)
 	}
 
 	phone := requestBody.Phone

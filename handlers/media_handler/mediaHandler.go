@@ -65,7 +65,7 @@ func uploadToS3(file *bytes.Buffer, fileName, fileType string) (string, error) {
 	// get environment variables
 	err := godotenv.Load(".env.local")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Printf("Error loading .env file")
 	}
 	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
 	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
